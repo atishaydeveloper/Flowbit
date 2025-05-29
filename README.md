@@ -5,7 +5,7 @@ Intelligent document processing with multi-agent AI for classifying, extracting,
 
 ## 📋 Table of Contents
 
-1. [Project Overview](#project-overview)
+1. [Project Overview](## 🖥️ Project Overview)
 2. [Key Capabilities](#key-capabilities)
 3. [Features](#features)
 4. [Directory Structure](#directory-structure)
