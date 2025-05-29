@@ -1,0 +1,16 @@
+{
+  "input_type": "email",
+  "content": {
+    "subject": "Request for Quotation: Office Supplies",
+    "from": "procurement@acme-corp.com",
+    "to": "sales@vendor-company.com",
+    "date": "2025-05-28T10:15:00Z",
+    "body_html": "<p>Dear Vendor,</p><p>We are looking to purchase the following office supplies:</p><ul><li>50 units of A4 Paper (500 sheets)</li><li>20 packs of Blue Ballpoint Pens</li><li>10 Ink Cartridges for HP 4100</li></ul><p>Please provide a formal quotation including delivery timelines and bulk pricing.</p><p>Regards,<br>ACME Procurement Team</p>"
+  },
+  "metadata": {
+    "document_id": "rfq-email-20250528-01",
+    "source": "email_ingestion_service",
+    "received_timestamp": "2025-05-28T10:16:00Z",
+    "priority": "high"
+  }
+}

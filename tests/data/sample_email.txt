@@ -1,0 +1,16 @@
+Subject: Request for Quotation - Urgent
+From: sarah.chen@example.com
+To: sales@company.com
+
+Dear Sales Team,
+
+I would like to request a quotation for the following items:
+- 500 units of AlphaWidget Model X100
+- 250 units of BetaWidget Model Z300
+
+We need these items delivered by the end of next month for our new project.
+
+Best regards,
+Sarah Chen
+Senior Procurement Manager
+Tech Solutions Inc.
