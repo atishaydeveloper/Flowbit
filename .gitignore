@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+
+# Environment Variables
+.env
+.env.test
+*.env
+
+# Database
+*.db
+*.sqlite
+flowbit.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# System Files
+.DS_Store
+Thumbs.db
+
+test.ipynb
+tests/setup_test_data.py
