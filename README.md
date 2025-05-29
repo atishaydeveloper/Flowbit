@@ -1,4 +1,4 @@
-**FlowBit**
+## FlowBit
 Intelligent document processing with multi-agent AI for classifying, extracting, and formatting data from emails, JSON, PDFs, and more.
 
 ---
