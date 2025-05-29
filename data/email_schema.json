@@ -1,0 +1,14 @@
+[
+    {
+    "extracted_sender_name": "Sarah Chen",
+    "primary_request_summary": "Request for a quotation for AlphaWidget Models X100 (500 units) and Z300 (250 units).",
+    "key_entities_mentioned": ["AlphaWidget Model X100", "AlphaWidget Model Z300", "Innovate Solutions Ltd.", "SPEC_AW_2025.pdf"],
+    "urgency_level": "Specific_Date_Requested",
+    "urgency_reason_or_deadline": "by EOD Friday, May 30th, 2025",
+    "sentiment": "Neutral",
+    "action_items_implied": ["Provide unit pricing", "Provide estimated lead time", "Provide volume discount information"],
+    "contact_information_in_body": ["email: schen@innovatesolutions.example.com", "phone: +1-555-0102"]
+    }
+
+
+]

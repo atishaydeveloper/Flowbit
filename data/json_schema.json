@@ -1,0 +1,676 @@
+[
+    {
+  "schema_name": "FlowBitInvoiceV1",
+  "description": "Standard schema for processing incoming JSON invoices.",
+  "fields": [
+    {
+      "flowbit_name": "invoiceId",
+      "source_path": ["invoice_id", "id", "documentId"], 
+      "type": "string",
+      "required": true,
+      "description": "Unique identifier for the invoice."
+    },
+    {
+      "flowbit_name": "customerName",
+      "source_path": ["customer_details.name", "customer.name", "clientName"],
+      "type": "string",
+      "required": true,
+      "description": "Name of the customer."
+    },
+    {
+      "flowbit_name": "totalAmount",
+      "source_path": ["total_amount_due", "grand_total", "amount"],
+      "type": "number",
+      "required": true,
+      "description": "The total amount due for the invoice."
+    },
+    {
+      "flowbit_name": "dueDate",
+      "source_path": ["due_date", "payment_due"],
+      "type": "date", 
+      "required": true,
+      "description": "Date when the payment is due."
+    },
+    {
+      "flowbit_name": "currency",
+      "source_path": ["currency_code", "currency"],
+      "type": "string",
+      "required": false,
+      "default": "USD",
+      "description": "Currency code (e.g., USD, EUR)."
+    },
+    {
+      "flowbit_name": "itemsDescription",
+      "source_path": ["items"], 
+      "type": "string",
+      "required": false,
+      "description": "A brief summary of all item descriptions."
+    }
+  ],
+  "strict_mode": false 
+},
+    {
+        "schema_name": "FlowBitRFQ_V1",
+        "description": "Standard schema for processing incoming JSON-based Requests for Quotation.",
+        "strict_mode": false,
+        "fields": [
+            {
+            "flowbit_name": "rfqId",
+            "source_path": ["rfq_id", "requestId", "request_reference", "id"],
+            "type": "string",
+            "required": true,
+            "description": "Unique identifier for the RFQ."
+            },
+            {
+            "flowbit_name": "requestingCompanyName",
+            "source_path": ["company.name", "requestor.companyName", "organizationName", "from_company"],
+            "type": "string",
+            "required": false,
+            "description": "Name of the company issuing the RFQ."
+            },
+            {
+            "flowbit_name": "contactPerson",
+            "source_path": ["contact.name", "requestor.contact_person", "attentionTo"],
+            "type": "string",
+            "required": false,
+            "description": "Primary contact person for this RFQ."
+            },
+            {
+            "flowbit_name": "contactEmail",
+            "source_path": ["contact.email", "requestor.email", "replyToEmail"],
+            "type": "string", 
+            "required": false,
+            "description": "Contact email for RFQ responses or queries."
+            },
+            {
+            "flowbit_name": "requestedItems",
+            "source_path": ["items", "requested_products", "services_needed", "lineItems"],
+            "type": "array",
+            "required": true,
+            "description": "List of items or services for which quotation is requested.",
+            "array_item_schema": { 
+                "fields": [
+                {
+                    "flowbit_name": "itemNameOrId",
+                    "source_path": ["name", "product_id", "sku", "service_code", "description_short"],
+                    "type": "string",
+                    "required": true,
+                    "description": "Name, ID, or SKU of the requested item/service."
+                },
+                {
+                    "flowbit_name": "quantity",
+                    "source_path": ["quantity", "qty", "amount_requested"],
+                    "type": "number",
+                    "required": true,
+                    "description": "Quantity of the item/service needed."
+                },
+                {
+                    "flowbit_name": "unitOfMeasure",
+                    "source_path": ["uom", "unit", "measurement_unit"],
+                    "type": "string",
+                    "required": false,
+                    "description": "Unit of measure for the quantity (e.g., pieces, kg, hours)."
+                },
+                {
+                    "flowbit_name": "specifications",
+                    "source_path": ["specs", "detailed_description", "requirements", "notes"],
+                    "type": "string",
+                    "required": false,
+                    "description": "Specific requirements, features, or notes for the item."
+                }
+                ]
+            }
+            },
+            {
+            "flowbit_name": "submissionDeadline",
+            "source_path": ["deadline", "response_due_date", "submit_by_date"],
+            "type": "date", 
+            "required": false,
+            "description": "Date by which the quotation must be submitted."
+            },
+            {
+            "flowbit_name": "deliveryLocation",
+            "source_path": ["delivery_address.full_address", "ship_to_location", "destination"],
+            "type": "string",
+            "required": false,
+            "description": "Requested delivery location or address."
+            },
+            {
+            "flowbit_name": "projectTitle",
+            "source_path": ["project_name", "rfq_title", "subject"],
+            "type": "string",
+            "required": false,
+            "description": "Optional title or subject for the RFQ project."
+            },
+            {
+            "flowbit_name": "additionalNotes",
+            "source_path": ["general_notes", "comments", "other_information"],
+            "type": "string",
+            "required": false,
+            "description": "Any other relevant notes or instructions."
+            }
+        ]
+    },
+    {
+        "schema_name": "FlowBitComplaint_V1",
+        "description": "Standard schema for processing incoming JSON-based customer complaints.",
+        "strict_mode": false,
+        "fields": [
+            {
+            "flowbit_name": "complaintId",
+            "source_path": ["complaint_reference", "case_id", "ticket_number", "id"],
+            "type": "string",
+            "required": true,
+            "description": "Unique identifier for the complaint."
+            },
+            {
+            "flowbit_name": "customerName",
+            "source_path": ["customer_info.name", "complainant.full_name", "user_name"],
+            "type": "string",
+            "required": false,
+            "description": "Name of the customer lodging the complaint."
+            },
+            {
+            "flowbit_name": "customerContact",
+            "source_path": ["customer_info.email", "complainant.contact_email", "user_contact_info.phone_number"], 
+            "type": "string",
+            "required": false,
+            "description": "Customer's primary contact (email or phone)."
+            },
+            {
+            "flowbit_name": "productOrServiceId",
+            "source_path": ["product_details.sku", "service_in_question.id", "order_reference", "item_code"],
+            "type": "string",
+            "required": false,
+            "description": "Identifier of the product/service related to the complaint."
+            },
+            {
+            "flowbit_name": "complaintDate",
+            "source_path": ["date_filed", "submission_timestamp", "complaint_date"],
+            "type": "date", 
+            "required": true,
+            "description": "Date the complaint was lodged."
+            },
+            {
+            "flowbit_name": "incidentDate",
+            "source_path": ["date_of_incident", "issue_occurred_on"],
+            "type": "date", 
+            "required": false,
+            "description": "Date the actual issue or incident occurred."
+            },
+            {
+            "flowbit_name": "complaintSummary",
+            "source_path": ["complaint_title", "issue_summary", "subject"],
+            "type": "string",
+            "required": true,
+            "description": "A brief summary of the complaint."
+            },
+            {
+            "flowbit_name": "complaintDetails",
+            "source_path": ["full_description", "details_of_complaint", "problem_statement"],
+            "type": "string",
+            "required": false,
+            "description": "Detailed description of the complaint."
+            },
+            {
+            "flowbit_name": "desiredResolution",
+            "source_path": ["resolution_sought", "requested_outcome", "what_customer_wants"],
+            "type": "string",
+            "required": false,
+            "description": "The resolution desired by the customer."
+            },
+            {
+            "flowbit_name": "priorityLevel",
+            "source_path": ["priority", "severity_level", "urgency"],
+            "type": "string", 
+            "required": false,
+            "default": "Medium",
+            "description": "Assigned or inferred priority of the complaint."
+            }
+        ]
+    },
+    {
+    "schema_name": "FlowBitRegulation_V1",
+    "description": "Standard schema for processing JSON-based regulatory documents or notices.",
+    "strict_mode": false,
+    "fields": [
+        {
+        "flowbit_name": "documentId",
+        "source_path": ["regulation_id", "document_code", "notice_number", "id"],
+        "type": "string",
+        "required": true,
+        "description": "Unique identifier for the regulatory document."
+        },
+        {
+        "flowbit_name": "title",
+        "source_path": ["document_title", "regulation_name", "subject"],
+        "type": "string",
+        "required": true,
+        "description": "Official title of the regulation."
+        },
+        {
+        "flowbit_name": "issuingAuthority",
+        "source_path": ["authority_name", "issuing_body", "agency"],
+        "type": "string",
+        "required": false,
+        "description": "The government body or authority that issued the regulation."
+        },
+        {
+        "flowbit_name": "publicationDate",
+        "source_path": ["date_published", "publication_timestamp"],
+        "type": "date", 
+        "required": false,
+        "description": "Date the regulation was officially published."
+        },
+        {
+        "flowbit_name": "effectiveDate",
+        "source_path": ["date_effective", "enforcement_start_date"],
+        "type": "date", 
+        "required": false,
+        "description": "Date the regulation comes into effect."
+        },
+        {
+        "flowbit_name": "expiryDate",
+        "source_path": ["date_expires", "sunset_date", "valid_until"],
+        "type": "date", 
+        "required": false,
+        "description": "Date the regulation expires, if applicable."
+        },
+        {
+        "flowbit_name": "jurisdiction",
+        "source_path": ["scope.jurisdiction", "applicable_region", "country_code"],
+        "type": "string",
+        "required": false,
+        "description": "Geographical or legal area where the regulation applies (e.g., EU, USA-CA)."
+        },
+        {
+        "flowbit_name": "category",
+        "source_path": ["regulation_type", "domain", "sector"],
+        "type": "string",
+        "required": false,
+        "description": "Category of the regulation (e.g., Finance, Environmental, Data Privacy)."
+        },
+        {
+        "flowbit_name": "summary",
+        "source_path": ["abstract", "brief_overview", "executive_summary"],
+        "type": "string",
+        "required": false,
+        "description": "A short summary of the regulation's purpose and key points."
+        },
+        {
+        "flowbit_name": "fullTextReference",
+        "source_path": ["document_url", "link_to_full_text", "source_document_path"],
+        "type": "string", 
+        "required": false,
+        "description": "Link or reference to the full regulatory text."
+        },
+        {
+        "flowbit_name": "keywords",
+        "source_path": ["tags", "key_terms", "topics"],
+        "type": "array", 
+        "required": false,
+        "description": "Relevant keywords or tags associated with the regulation.",
+        "array_item_schema": { "type": "string" }
+            }
+        ]
+    },
+    {
+    "schema_name": "FlowBitGeneralInquiry_V1",
+    "description": "Standard schema for processing general inquiries received in JSON format.",
+    "strict_mode": false,
+    "fields": [
+        {
+        "flowbit_name": "inquiryId",
+        "source_path": ["query_id", "message_reference", "interaction_id", "id"],
+        "type": "string",
+        "required": true,
+        "description": "Unique identifier for the inquiry."
+        },
+        {
+        "flowbit_name": "inquirerName",
+        "source_path": ["sender_info.name", "user_profile.full_name", "from_name"],
+        "type": "string",
+        "required": false,
+        "description": "Name of the person making the inquiry."
+        },
+        {
+        "flowbit_name": "inquirerContact",
+        "source_path": ["sender_info.email", "user_profile.contact_email", "reply_to", "sender_info.phone"],
+        "type": "string",
+        "required": false,
+        "description": "Contact information (email/phone) of the inquirer."
+        },
+        {
+        "flowbit_name": "inquirySubject",
+        "source_path": ["subject_line", "query_title", "topic"],
+        "type": "string",
+        "required": true,
+        "description": "Subject or brief topic of the inquiry."
+        },
+        {
+        "flowbit_name": "inquiryDetails",
+        "source_path": ["body_text", "message_content", "query_details", "question"],
+        "type": "string",
+        "required": true,
+        "description": "The full text or details of the inquiry."
+        },
+        {
+        "flowbit_name": "receivedDate",
+        "source_path": ["timestamp", "date_received", "created_at"],
+        "type": "date", 
+        "required": true,
+        "description": "Date and time the inquiry was received."
+        },
+        {
+        "flowbit_name": "channel",
+        "source_path": ["source_channel", "origin_platform", "medium"],
+        "type": "string",
+        "required": false,
+        "description": "Channel through which the inquiry was received (e.g., API, Webhook, MobileApp)."
+        },
+        {
+        "flowbit_name": "tags",
+        "source_path": ["keywords", "categories", "labels"],
+        "type": "array",
+        "required": false,
+        "description": "Keywords or tags associated with the inquiry.",
+        "array_item_schema": { "type": "string" }
+        }
+    ]
+    },
+    {
+    "schema_name": "FlowBitOrderConfirmation_V1",
+    "description": "Standard schema for processing JSON-based order confirmations.",
+    "strict_mode": false,
+    "fields": [
+        {
+        "flowbit_name": "orderId",
+        "source_path": ["order_number", "confirmation_id", "transaction_id", "id"],
+        "type": "string",
+        "required": true,
+        "description": "Unique identifier for the order."
+        },
+        {
+        "flowbit_name": "customerName",
+        "source_path": ["customer.name", "buyer_info.full_name", "client_name"],
+        "type": "string",
+        "required": true,
+        "description": "Name of the customer who placed the order."
+        },
+        {
+        "flowbit_name": "customerEmail",
+        "source_path": ["customer.email", "buyer_info.email_address"],
+        "type": "string",
+        "required": false,
+        "description": "Email address of the customer."
+        },
+        {
+        "flowbit_name": "orderDate",
+        "source_path": ["date_placed", "order_timestamp", "transaction_date"],
+        "type": "date", 
+        "required": true,
+        "description": "Date the order was placed."
+        },
+        {
+        "flowbit_name": "totalAmount",
+        "source_path": ["order_total.amount", "grand_total", "final_price"],
+        "type": "number",
+        "required": true,
+        "description": "Total amount for the order."
+        },
+        {
+        "flowbit_name": "currency",
+        "source_path": ["order_total.currency_code", "currency_symbol", "currency"],
+        "type": "string",
+        "required": false,
+        "default": "USD",
+        "description": "Currency of the total amount."
+        },
+        {
+        "flowbit_name": "items",
+        "source_path": ["line_items", "products_ordered", "order_details.items"],
+        "type": "array",
+        "required": true,
+        "description": "List of items included in the order.",
+        "array_item_schema": {
+            "fields": [
+            {
+                "flowbit_name": "productId",
+                "source_path": ["sku", "item_id", "product_code"],
+                "type": "string",
+                "required": true,
+                "description": "Identifier for the product."
+            },
+            {
+                "flowbit_name": "productName",
+                "source_path": ["name", "item_description", "title"],
+                "type": "string",
+                "required": false,
+                "description": "Name or description of the product."
+            },
+            {
+                "flowbit_name": "quantity",
+                "source_path": ["qty", "count"],
+                "type": "number",
+                "required": true,
+                "description": "Quantity of this product ordered."
+            },
+            {
+                "flowbit_name": "unitPrice",
+                "source_path": ["price_per_unit", "item_cost", "price"],
+                "type": "number",
+                "required": true,
+                "description": "Price of a single unit of this product."
+            },
+            {
+                "flowbit_name": "lineTotal",
+                "source_path": ["subtotal", "total_item_price"],
+                "type": "number",
+                "required": false,
+                "description": "Total price for this line item (quantity * unitPrice)."
+            }
+            ]
+        }
+        },
+        {
+        "flowbit_name": "shippingAddress",
+        "source_path": ["shipping_info.full_address", "delivery_address_text", "ship_to.address_line1"], 
+        "type": "string",
+        "required": false,
+        "description": "Full shipping address."
+        },
+        {
+        "flowbit_name": "billingAddress",
+        "source_path": ["billing_info.full_address", "invoice_address_text", "bill_to.address_line1"],
+        "type": "string",
+        "required": false,
+        "description": "Full billing address."
+        },
+        {
+        "flowbit_name": "estimatedDeliveryDate",
+        "source_path": ["delivery_estimate.date", "expected_arrival_date"],
+        "type": "date",
+        "required": false,
+        "description": "Estimated date of delivery."
+        },
+        {
+        "flowbit_name": "orderStatus",
+        "source_path": ["status", "current_order_state", "fulfillment_status"],
+        "type": "string",
+        "required": false,
+        "default": "Confirmed",
+        "description": "Current status of the order (e.g., Confirmed, Processing, Shipped)."
+        },
+        {
+        "flowbit_name": "paymentMethod",
+        "source_path": ["payment_details.type", "method_of_payment"],
+        "type": "string",
+        "required": false,
+        "description": "Method used for payment (e.g., Credit Card, PayPal)."
+        }
+    ]
+    },
+    {
+    "schema_name": "FlowBitSupportRequest_V1",
+    "description": "Standard schema for processing JSON-based customer support requests or tickets.",
+    "strict_mode": false,
+    "fields": [
+        {
+        "flowbit_name": "ticketId",
+        "source_path": ["support_ticket_id", "case_reference", "request_id", "id"],
+        "type": "string",
+        "required": true,
+        "description": "Unique identifier for the support request/ticket."
+        },
+        {
+        "flowbit_name": "userName",
+        "source_path": ["user_info.name", "requester_name", "submitted_by.full_name"],
+        "type": "string",
+        "required": false,
+        "description": "Name of the user submitting the support request."
+        },
+        {
+        "flowbit_name": "userContact",
+        "source_path": ["user_info.email", "requester_contact.primary_email", "submitted_by.phone"],
+        "type": "string",
+        "required": false,
+        "description": "Contact information (email/phone) of the user."
+        },
+        {
+        "flowbit_name": "requestSubject",
+        "source_path": ["subject", "issue_title", "summary_of_problem"],
+        "type": "string",
+        "required": true,
+        "description": "Brief subject or title of the support request."
+        },
+        {
+        "flowbit_name": "requestDetails",
+        "source_path": ["description", "problem_details", "body_content"],
+        "type": "string",
+        "required": true,
+        "description": "Full description of the support issue."
+        },
+        {
+        "flowbit_name": "productIdOrService",
+        "source_path": ["affected_product.id", "service_name", "item_in_question"],
+        "type": "string",
+        "required": false,
+        "description": "Specific product or service the support request relates to."
+        },
+        {
+        "flowbit_name": "priority",
+        "source_path": ["urgency_level", "ticket_priority", "severity"],
+        "type": "string", 
+        "required": false,
+        "default": "Normal",
+        "description": "Priority level of the support request."
+        },
+        {
+        "flowbit_name": "submittedDate",
+        "source_path": ["date_created", "submission_time", "reported_on"],
+        "type": "date", 
+        "required": true,
+        "description": "Date and time the support request was submitted."
+        },
+        {
+        "flowbit_name": "lastUpdateDate",
+        "source_path": ["date_modified", "last_activity_on"],
+        "type": "date",
+        "required": false,
+        "description": "Date and time of the last update to the request."
+        },
+        {
+        "flowbit_name": "status",
+        "source_path": ["current_status", "ticket_state", "progress"],
+        "type": "string", 
+        "required": false,
+        "default": "Open",
+        "description": "Current status of the support request."
+        },
+        {
+        "flowbit_name": "category",
+        "source_path": ["issue_type", "request_category", "department"],
+        "type": "string",
+        "required": false,
+        "description": "Category of the support request (e.g., Technical Issue, Billing, Bug Report)."
+        },
+        {
+        "flowbit_name": "assignedAgent",
+        "source_path": ["agent_assigned.name", "owner_id", "handled_by"],
+        "type": "string",
+        "required": false,
+        "description": "Support agent assigned to the request, if any."
+        }
+    ]
+    },
+    {
+    "schema_name": "FlowBitGenericData_V1",
+    "description": "A generic schema for JSON inputs where the intent is 'Other' or cannot be specifically mapped to a more defined FlowBit schema. Aims to capture core metadata and a representation of the data.",
+    "strict_mode": false, 
+    "fields": [
+        {
+        "flowbit_name": "sourceId",
+        "source_path": ["id", "messageId", "transactionId", "uuid"], 
+        "type": "string",
+        "required": false, 
+        "description": "An identifier from the source JSON if available, or a generated unique ID for tracking."
+        },
+        {
+        "flowbit_name": "detectedType",
+        "source_path": ["type", "kind", "documentClass"], 
+        "type": "string",
+        "required": false,
+        "default": "GenericJSON",
+        "description": "A type or kind indicator found in the JSON, or 'GenericJSON' if none."
+        },
+        {
+        "flowbit_name": "summary",
+        "source_path": ["summary", "description", "title", "abstract"], 
+        "type": "string",
+        "required": false,
+        "special_handling_instructions": "If no direct summary field, attempt to generate a brief summary from the first few key-value pairs or a title field.",
+        "description": "A brief textual summary of the JSON content, extracted or generated."
+        },
+        {
+        "flowbit_name": "keyValues",
+        "source_path": ["data", "payload", "$"], 
+        "type": "object",
+        "required": false,
+        "special_handling_instructions": "Extract all top-level key-value pairs. For nested objects, consider extracting up to a certain depth or flattening specific nested keys if identifiable patterns emerge. Avoid excessively large or deeply nested raw data here; use rawDataHash or rawDataPreview for that.",
+        "description": "An object containing key top-level or easily identifiable key-value pairs from the source JSON."
+        },
+        {
+        "flowbit_name": "rawDataHash",
+        "source_path": [], 
+        "type": "string",
+        "required": false,
+        "special_handling_instructions": "Agent should calculate an MD5 or SHA256 hash of the original JSON string.",
+        "description": "A hash of the original JSON string for integrity checks or de-duplication."
+        },
+        {
+            "flowbit_name": "rawDataPreview",
+            "source_path": [], 
+            "type": "string",
+            "required": false,
+            "special_handling_instructions": "Agent provides a snippet (e.g., first 500 characters) of the original JSON.",
+            "description": "A preview snippet of the raw JSON data."
+        },
+        {
+        "flowbit_name": "receivedTimestamp",
+        "source_path": ["timestamp", "createdAt", "receivedAt", "eventTime"],
+        "type": "datetime", 
+        "required": true, 
+        "special_handling_instructions": "If not present in source, the agent should set this to the time of processing.",
+        "description": "Timestamp indicating when the data was received or processed."
+        },
+        {
+        "flowbit_name": "sourceOrigin",
+        "source_path": ["metadata.source", "originSystem", "dataSource"],
+        "type": "string",
+        "required": false,
+        "description": "Indication of where the JSON data originated from."
+        }
+        ]
+    }
+
+]
