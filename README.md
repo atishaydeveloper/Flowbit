@@ -129,8 +129,8 @@ flowbit/
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-org/flowbit.git
-cd flowbit
+git clone https://github.com/atishaydeveloper/Flowbit
+cd Flowbit
 # Create and activate virtual environment
 python -m venv .venv
 source .venv/bin/activate    # (Linux/macOS)
@@ -168,7 +168,7 @@ python view_db.py view-results
 * **Input Modes**:
 
   * Paste text (end with `:q` on a new line)
-  * Type `exit` to quit
+  * Type `exit` and then `:q` to quit
 
 ---
 
