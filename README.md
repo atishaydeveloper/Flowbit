@@ -158,6 +158,13 @@ Run the CLI to process documents:
 python main.py
 ```
 
+View database contents:
+```bash
+python view_db.py view-inputs
+python view_db.py view-classifications
+python view_db.py view-results
+```
+
 * **Input Modes**:
 
   * Paste text (end with `:q` on a new line)
